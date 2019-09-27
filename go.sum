@@ -26,6 +26,7 @@ github.com/couchbase/goutils v0.0.0-20180530154633-e865a1461c8a/go.mod h1:BQwMFl
 github.com/cupcake/rdb v0.0.0-20161107195141-43ba34106c76/go.mod h1:vYwsqCOLxGiisLwp9rITslkFNpZD5rz43tf41QFkTWY=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/ddo/pick-json v0.0.0-20170207095303-c8760e09e0fe/go.mod h1:vhvQl0uhd1j+zZPJhH0mZ1Moz14khMTXkCkNDXavk1Q=
 github.com/eapache/go-resiliency v1.1.0/go.mod h1:kFI+JgMyC7bLPUVY133qvEBtVayf5mFgVsvEsIPBvNs=
 github.com/eapache/go-xerial-snappy v0.0.0-20180814174437-776d5712da21/go.mod h1:+020luEh2TKB4/GOp8oxxtq0Daoen/Cii55CzbTV6DU=
 github.com/eapache/queue v1.1.0/go.mod h1:6eCeP0CKFpHLu8blIFXhExK/dRa7WDZfr6jVFPTqq+I=
@@ -47,10 +48,16 @@ github.com/generalzgd/comm-libs v0.0.0-20190923062620-a884e5520268 h1:jw1VQncr3B
 github.com/generalzgd/comm-libs v0.0.0-20190923062620-a884e5520268/go.mod h1:fMLe7uEZS9mK/LN4wYsxKp5aaYRlzUsfl5Ro+jTsoQA=
 github.com/generalzgd/comm-libs v0.0.0-20190924030015-6a38ba2b89ca h1:u4WzBB+ZhXHdfeQ8X3A927bOUsQffw/y8xr4ERTINW8=
 github.com/generalzgd/comm-libs v0.0.0-20190924030015-6a38ba2b89ca/go.mod h1:fMLe7uEZS9mK/LN4wYsxKp5aaYRlzUsfl5Ro+jTsoQA=
+github.com/generalzgd/comm-libs v0.0.0-20190926105101-faf86c3df881 h1:ePjxxdMhajb9QM6ZMjYmODl/tXrAQ3foqNx9OP7Heek=
+github.com/generalzgd/comm-libs v0.0.0-20190926105101-faf86c3df881/go.mod h1:fMLe7uEZS9mK/LN4wYsxKp5aaYRlzUsfl5Ro+jTsoQA=
 github.com/generalzgd/deepcopy v0.0.0-20190822053003-05164161aa67 h1:5sogrf8JchduRinBCGyQqhz82y2x+dXfrUz/xjAqvck=
 github.com/generalzgd/deepcopy v0.0.0-20190822053003-05164161aa67/go.mod h1:60T09WX81PKkeXKchJZVUg5F/AiwBCMrsPFnrBdep4s=
 github.com/generalzgd/grpc-svr-frame v0.0.0-20190924021807-69f98797f15c h1:+nRnPPgoYXjzg25PHa12EFDv55rMZFRfxXL2ksU6iZk=
 github.com/generalzgd/grpc-svr-frame v0.0.0-20190924021807-69f98797f15c/go.mod h1:iPlZnCfH6p3dUY1tHE4I+eX3WhFVv+oO1cVEaT4Ec7U=
+github.com/generalzgd/grpc-svr-frame v0.0.0-20190927055802-22582de095a3 h1:CzOF7VaZGqyZ+H+1FrPrIw8sXlCzUANjmbNMqJBvtjQ=
+github.com/generalzgd/grpc-svr-frame v0.0.0-20190927055802-22582de095a3/go.mod h1:HaRneby0vJ4536cMJR9/PCLncNs5UFfeFK7+mfoJiBo=
+github.com/generalzgd/grpc-svr-frame v0.0.0-20190927062433-3c356c8dfb59 h1:VKEJCDZNRv5Kxoek2pVi3Qykt77GDjcL9BV495y7ekw=
+github.com/generalzgd/grpc-svr-frame v0.0.0-20190927062433-3c356c8dfb59/go.mod h1:HaRneby0vJ4536cMJR9/PCLncNs5UFfeFK7+mfoJiBo=
 github.com/generalzgd/grpc-tcp-gateway-proto v0.0.0-20190924080814-5f0f4ff23237 h1:iT9cEqWpdSPrgxJPDAlIkEpY/SCcyaXksAbDKw5EORk=
 github.com/generalzgd/grpc-tcp-gateway-proto v0.0.0-20190924080814-5f0f4ff23237/go.mod h1:+YlxI3LTI+PspV4PWYj/KBtuCYrW63GXCyEyESWUzv8=
 github.com/generalzgd/link v0.0.0-20190924020608-c636ec1cdbe5 h1:MyFlpxVUX8KHdvU+Z+RIKkHOWTXpRwP6BGN6sDBNX1Q=

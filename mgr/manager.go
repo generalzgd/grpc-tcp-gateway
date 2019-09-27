@@ -27,6 +27,12 @@ import (
 	`github.com/generalzgd/grpc-svr-frame/common`
 	`github.com/generalzgd/grpc-svr-frame/config/ymlcfg`
 	ctrl `github.com/generalzgd/grpc-svr-frame/grpc-ctrl`
+	`github.com/generalzgd/grpc-svr-frame/monitor`
+	`github.com/generalzgd/grpc-svr-frame/monitor/analyse`
+	_ `github.com/generalzgd/grpc-svr-frame/monitor/gorute`
+	_ `github.com/generalzgd/grpc-svr-frame/monitor/mem`
+	_ `github.com/generalzgd/grpc-svr-frame/monitor/tps`
+	`github.com/generalzgd/grpc-svr-frame/prewarn`
 	gwproto `github.com/generalzgd/grpc-tcp-gateway-proto/goproto`
 	`github.com/generalzgd/link`
 	`github.com/golang/protobuf/proto`
@@ -71,6 +77,14 @@ func GetManagerInst() *Manager {
 
 func (p *Manager) Init(cfg config.AppConfig) {
 	p.cfg = cfg
+
+	prewarn.SetSendMailCallback(func(s string) {
+
+	})
+	// monitor.SetWarnHandler(prewarn.NewWarn)
+
+	// 注册一个分析字段监控
+	monitor.Register(analyse.NewAnalyse(1000, 10, monitor.ANALYSE_SUM, "", p.parseDataForMonitor))
 }
 
 func (p *Manager) Destroy() {
@@ -269,7 +283,7 @@ func (p *Manager) handleSession(session *link.Session, maxConn int, idleTimeout 
 			return
 		}
 
-		// statistic.NewRecord(statistic.Stat_Tps)
+		monitor.NewRecord(monitor.Stat_Tps)
 
 		if packet.Id != codec.ID_Heartbeat {
 			logs.Debug("session receive packet ip:%s sid:%d head:%v", clientIp, sid, packet.GateClientPackHead)
@@ -315,6 +329,9 @@ func (p *Manager) transmitPack(session *link.Session, pack codec.GateClientPack,
 		err = codec.EndpointError
 		return
 	}
+
+	// 用于统计分析
+	monitor.NewRecord(monitor.Stat_Analyse, pack)
 
 	// 转换用户链接信息为metadata.MD，用于grpc的header传输。
 	// 接收方将header信息转换成ClientConnInfo结构体，以获得用户链接信息
@@ -379,7 +396,7 @@ func (p *Manager) SendToClient(session *link.Session, msg []byte) error {
 		session.Close()
 	}
 	// 下行也要记录tps
-	// statistic.NewRecord(statistic.Stat_Tps)
+	monitor.NewRecord(monitor.Stat_Tps)
 	return err
 }
 
@@ -388,4 +405,9 @@ func (p *Manager) getEndpointByMeth(meth string) (ymlcfg.EndpointConfig, bool) {
 	tarSvr = strings.ToLower(tarSvr)
 	cfg, ok := p.cfg.EndpointSvr[tarSvr]
 	return cfg, ok
+}
+
+// 解析对应的字段
+func (p *Manager) parseDataForMonitor(data interface{}, field string) int {
+	return 0
 }
