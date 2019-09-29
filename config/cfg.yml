@@ -16,6 +16,11 @@ endpoint:
       - cert: cert.pem
         priv: priv.key
         ca: ca.pem
+    pool:
+      init: 1
+      cap: 1000
+      idletimeout: 10s
+      livedur: 30s
   backendsvr2:
     name: backendsvr2
     address: consul:///backendsvr2
@@ -24,6 +29,11 @@ endpoint:
       - cert: cert.pem
         priv: priv.key
         ca: ca.pem
+    pool:
+      init: 1
+      cap: 1000
+      idletimeout: 0
+      livedur: 0
   backendsvr3:
     name: backendsvr3
     address: consul:///backendsvr3
@@ -42,10 +52,10 @@ servelist:
         ca: ca.pem
     buffersize: 30000
     maxconn: 10000
-    idletimeout: 90s
+    idletimeout: 0
     sendchansize: 1024
     recvchansize: 1024
-    port: 10001
+    port: 8989
   - name: gate_ws
     type: ws # 0:http 1:tcp 2:ws
     secure: false
@@ -55,7 +65,7 @@ servelist:
         ca: ca.pem
     buffersize: 30000
     maxconn: 10000
-    idletimeout: 90s
+    idletimeout: 0
     sendchansize: 1024
     recvchansize: 1024
-    port: 10002
+    port: 8990

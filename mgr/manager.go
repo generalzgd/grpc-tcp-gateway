@@ -14,6 +14,7 @@ import (
 	`context`
 	`crypto/tls`
 	`encoding/json`
+	`errors`
 	`fmt`
 	`io`
 	`net`
@@ -24,8 +25,10 @@ import (
 	`time`
 
 	`github.com/astaxie/beego/logs`
+	comm_libs `github.com/generalzgd/comm-libs`
 	`github.com/generalzgd/grpc-svr-frame/common`
 	`github.com/generalzgd/grpc-svr-frame/config/ymlcfg`
+	_ `github.com/generalzgd/grpc-svr-frame/grpc-consul`
 	ctrl `github.com/generalzgd/grpc-svr-frame/grpc-ctrl`
 	`github.com/generalzgd/grpc-svr-frame/monitor`
 	`github.com/generalzgd/grpc-svr-frame/monitor/analyse`
@@ -55,6 +58,8 @@ var (
 			return true
 		},
 	}
+	//
+	analyseFail = errors.New("parse data fail")
 )
 
 type Manager struct {
@@ -70,6 +75,7 @@ func GetManagerInst() *Manager {
 	if mgrInst == nil {
 		mgrInstOnce.Do(func() {
 			mgrInst = &Manager{}
+			mgrInst.GrpcController = ctrl.MakeGrpcController()
 		})
 	}
 	return mgrInst
@@ -285,7 +291,7 @@ func (p *Manager) handleSession(session *link.Session, maxConn int, idleTimeout 
 
 		monitor.NewRecord(monitor.Stat_Tps)
 
-		if packet.Id != codec.ID_Heartbeat {
+		if packet.Id == codec.ID_Heartbeat {
 			logs.Debug("session receive packet ip:%s sid:%d head:%v", clientIp, sid, packet.GateClientPackHead)
 			continue
 		}
@@ -391,7 +397,7 @@ func (p *Manager) sendReplyPack(session *link.Session, pack codec.GateClientPack
 
 // 统一封装session 发送方法
 func (p *Manager) SendToClient(session *link.Session, msg []byte) error {
-	err := session.Send(&msg)
+	err := session.Send(msg)
 	if err != nil {
 		session.Close()
 	}
@@ -408,6 +414,26 @@ func (p *Manager) getEndpointByMeth(meth string) (ymlcfg.EndpointConfig, bool) {
 }
 
 // 解析对应的字段
-func (p *Manager) parseDataForMonitor(data interface{}, field string) int {
-	return 0
+func (p *Manager) parseDataForMonitor(data interface{}, field string) (int, error) {
+	if data == nil || field == "" {
+		return 0, analyseFail
+	}
+	pack, ok := data.(codec.GateClientPack)
+	if !ok {
+		return 0, analyseFail
+	}
+	obj := gwproto.GetMsgObjById(pack.Id)
+	if obj == nil {
+		return 0, analyseFail
+	}
+
+	if err := proto.Unmarshal(pack.Body, obj); err != nil {
+		return 0, analyseFail
+	}
+
+	res := comm_libs.GetFieldValueFromTarget(field, obj)
+	if res == nil {
+		return 0, analyseFail
+	}
+	return comm_libs.Interface2Int(res), nil
 }

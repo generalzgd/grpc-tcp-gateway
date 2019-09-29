@@ -4,7 +4,8 @@ go 1.12
 
 require (
 	github.com/astaxie/beego v1.12.0
-	github.com/generalzgd/grpc-svr-frame v0.0.0-20190927062433-3c356c8dfb59
+	github.com/generalzgd/comm-libs v0.0.0-20190926105101-faf86c3df881
+	github.com/generalzgd/grpc-svr-frame v0.0.0-20190929085824-d6a34f7d1057
 	github.com/generalzgd/grpc-tcp-gateway-proto v0.0.0-20190924080814-5f0f4ff23237
 	github.com/generalzgd/link v0.0.0-20190924020608-c636ec1cdbe5
 	github.com/golang/protobuf v1.3.2
