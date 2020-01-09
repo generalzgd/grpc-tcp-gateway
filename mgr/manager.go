@@ -41,10 +41,13 @@ import (
 	`github.com/golang/protobuf/proto`
 	`github.com/gorilla/websocket`
 	grpcpool `github.com/processout/grpc-go-pool`
+	`google.golang.org/grpc`
 	`google.golang.org/grpc/metadata`
+	`google.golang.org/grpc/reflection`
 
 	`github.com/generalzgd/grpc-tcp-gateway/codec`
 	`github.com/generalzgd/grpc-tcp-gateway/config`
+	`github.com/generalzgd/grpc-tcp-gateway/iproto`
 )
 
 var (
@@ -68,6 +71,18 @@ type Manager struct {
 	closeOnce sync.Once
 	closeFlag bool
 	wsCfg     config.TcpConnConfig
+}
+
+func (p *Manager) Notify(context.Context, *iproto.MsgNotify) (*iproto.CommReply, error) {
+	//panic("implement me")
+	// todo 给所有的客户端链接发送消息
+	return &iproto.CommReply{}, nil
+}
+
+func (p *Manager) NotifyUser(context.Context, *iproto.MsgNotifyUser) (*iproto.CommReply, error) {
+	//panic("implement me")
+	// todo 给指定的用户下发消息
+	return &iproto.CommReply{}, nil
 }
 
 /*单例*/
@@ -97,6 +112,36 @@ func (p *Manager) Destroy() {
 	p.closeOnce.Do(func() {
 		p.closeFlag = true
 	})
+}
+
+// 启动下行通讯端口
+func (p *Manager) ServeGrpc() error {
+	opts := []grpc.ServerOption{
+		grpc.MaxConcurrentStreams(1000),
+		grpc.MaxRecvMsgSize(32 * 1024),
+		grpc.MaxSendMsgSize(32 * 1024),
+		grpc.ReadBufferSize(8 * 1024),
+		grpc.WriteBufferSize(8 * 1024),
+		grpc.ConnectionTimeout(5 * time.Second),
+	}
+	// todo tls
+
+	addr := fmt.Sprintf(":%d", p.cfg.RpcSvr.Port) // p.cfg.RpcSvr.Address[0]
+	s := grpc.NewServer(opts...)
+	iproto.RegisterTcpGateDownServer(s, p)
+	reflection.Register(s)
+
+	lis, err := net.Listen("tcp", addr)
+	if err != nil {
+		logs.Error("failed to listen: %v", err)
+	}
+	go func() {
+		if err := s.Serve(lis); err != nil {
+			logs.Error("failed to serve: %v", err)
+		}
+	}()
+	logs.Debug("start serve grpc.", addr, p.cfg.RpcSvr.Secure)
+	return nil
 }
 
 func (p *Manager) ServeClient() error {

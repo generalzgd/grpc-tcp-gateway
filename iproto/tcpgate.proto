@@ -5,7 +5,7 @@ option java_package = "com.zqnet.GWproto";
 option java_outer_classname = "GWproto";
 option objc_class_prefix = "GWproto";
 
-package gwProto;
+package iproto;
 
 import "google/api/annotations.proto";
 
@@ -55,4 +55,14 @@ service TcpGateway {
             body: "*"
         };
     }
+}
+
+message MsgNotify {}
+message MsgNotifyUser{}
+message CommReply{}
+// 下行
+service TcpGateDown {
+    // 广播通知
+    rpc Notify(MsgNotify)returns(CommReply){}
+    rpc NotifyUser(MsgNotifyUser) returns(CommReply){}
 }

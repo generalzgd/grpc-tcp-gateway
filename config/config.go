@@ -42,6 +42,7 @@ type AppConfig struct {
 	Consul      ymlcfg.ConsulConfig              `yaml:"consul"`
 	EndpointSvr map[string]ymlcfg.EndpointConfig `yaml:"endpoint"` // key 对应tcpgate.proto文件中的@target标签
 	ServeList   []TcpConnConfig                  `yaml:"servelist"`
+	RpcSvr      ymlcfg.EndpointConfig            `yaml:"rpc"` // 下行，grpc 端口信息
 }
 
 func (p *AppConfig) GetLogLevel() int {

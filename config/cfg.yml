@@ -69,3 +69,8 @@ servelist:
     sendchansize: 1024
     recvchansize: 1024
     port: 8990
+rpc:
+  name: gatedown
+  port: 17034
+  secure: false
+  certfiles:
