@@ -41,3 +41,4 @@ https://github.com/generalzgd/grpc-tcp-gateway-proto
 目前该项目处于试运行阶段，尚有不足之处。恳请广大网友提点迷津。
 ```
 
+![usecase](./uml/usecase.png)
