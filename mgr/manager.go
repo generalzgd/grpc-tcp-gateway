@@ -36,7 +36,7 @@ import (
 	_ `github.com/generalzgd/grpc-svr-frame/monitor/mem`
 	_ `github.com/generalzgd/grpc-svr-frame/monitor/tps`
 	`github.com/generalzgd/grpc-svr-frame/prewarn`
-	gwproto `github.com/generalzgd/grpc-tcp-gateway-proto/goproto`
+	//gwproto `github.com/generalzgd/grpc-tcp-gateway-proto/goproto`
 	`github.com/generalzgd/link`
 	`github.com/golang/protobuf/proto`
 	`github.com/gorilla/websocket`
@@ -360,7 +360,7 @@ func (p *Manager) transmitPack(session *link.Session, pack codec.GateClientPack,
 		}
 		// 异常返回
 		if err != nil {
-			imerr := &gwproto.GwError{
+			imerr := &iproto.GwError{
 				Code:    1,
 				Message: fmt.Sprintf("%v", err),
 			}
@@ -369,7 +369,7 @@ func (p *Manager) transmitPack(session *link.Session, pack codec.GateClientPack,
 	}()
 	var md metadata.MD
 	// 根据cmdid映射，得到对应的后端方法名称 package.Service/Method, 例如：ZQProto.Authorize/Login
-	meth := gwproto.GetMethById(pack.Id)
+	meth := iproto.GetMethById(pack.Id)
 	if len(meth) < 1 {
 		err = codec.IdFieldError
 		return
@@ -403,7 +403,7 @@ func (p *Manager) transmitPack(session *link.Session, pack codec.GateClientPack,
 	}
 	defer conn.Close()
 
-	args := &gwproto.TransmitArgs{
+	args := &iproto.TransmitArgs{
 		Method:       meth,
 		Endpoint:     cfg.Address,
 		Conn:         conn.ClientConn,
@@ -414,7 +414,7 @@ func (p *Manager) transmitPack(session *link.Session, pack codec.GateClientPack,
 		Opts:         nil,
 	}
 	// 将pack的信息，转换传输给后端的服务
-	if err = gwproto.RegisterTransmitor(args); err != nil {
+	if err = iproto.RegisterTransmitor(args); err != nil {
 		return
 	}
 	return
@@ -434,7 +434,7 @@ func (p *Manager) sendReplyPack(session *link.Session, pack codec.GateClientPack
 		}
 	}
 
-	pack.Id = gwproto.GetIdByMsgObj(reply)
+	pack.Id = iproto.GetIdByMsgObj(reply)
 	pack.Length = uint16(len(bts))
 	pack.Body = bts
 	p.SendToClient(session, codec.EncodePacket(&pack))
@@ -452,7 +452,7 @@ func (p *Manager) SendToClient(session *link.Session, msg []byte) error {
 }
 
 func (p *Manager) getEndpointByMeth(meth string) (ymlcfg.EndpointConfig, bool) {
-	_, tarSvr, _, _ := gwproto.ParseMethod(meth)
+	_, tarSvr, _, _ := iproto.ParseMethod(meth)
 	tarSvr = strings.ToLower(tarSvr)
 	cfg, ok := p.cfg.EndpointSvr[tarSvr]
 	return cfg, ok
@@ -467,7 +467,7 @@ func (p *Manager) parseDataForMonitor(data interface{}, field string) (int, erro
 	if !ok {
 		return 0, analyseFail
 	}
-	obj := gwproto.GetMsgObjById(pack.Id)
+	obj := iproto.GetMsgObjById(pack.Id)
 	if obj == nil {
 		return 0, analyseFail
 	}

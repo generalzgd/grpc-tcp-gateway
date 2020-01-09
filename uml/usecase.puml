@@ -4,10 +4,11 @@ title grpc-tcp网关用例
 :用户1: as c1
 :用户2: as c2
 (网关域名LB) as lb
-node "grpc-tcpgw" as gw
-node "inner server1" as s1
-node "inner server2" as s2
-
+rectangle InnerServers {
+    node "grpc-tcpgw" as gw
+    node "inner server1" as s1
+    node "inner server2" as s2
+}
 c1 <-> lb: json 或 protoBuf
 c2 <-> lb: json 或 protoBuf
 lb <-> gw: 负载均衡客户端链接

@@ -9,6 +9,13 @@ https://github.com/generalzgd/protoc-gen-grpc-tcpgw
 https://github.com/generalzgd/grpc-tcp-gateway-proto
 ```
 
+### Proto文件生成
+```shell script
+protoc -Iiproto --go_out=plugins=grpc:./iproto ./iproto/backendsvr.proto
+protoc -Iiproto --go_out=plugins=grpc:./iproto ./iproto/tcpgate.proto
+protoc -Iiproto --grpc-tcpgw_out=logtostderr=true:./iproto ./iproto/tcpgate.proto
+```
+
 ## Schema
 
 ```

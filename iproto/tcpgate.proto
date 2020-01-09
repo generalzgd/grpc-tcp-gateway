@@ -8,28 +8,7 @@ option objc_class_prefix = "GWproto";
 package iproto;
 
 import "google/api/annotations.proto";
-
-//
-message GwError {
-    uint32 code = 1;
-    string message = 2;
-}
-
-message Method1Request {
-
-}
-
-message Method1Reply {
-
-}
-
-message Method2Request {
-
-}
-
-message Method2Reply {
-
-}
+import "backendsvr.proto";
 
 service TcpGateway {
     // 后端服务1
@@ -38,10 +17,6 @@ service TcpGateway {
     // @target backendsvr1 后端目标服务名
     // @id 2 对应请求协议的id
     rpc Method1(Method1Request) returns(Method1Reply) {
-        option (google.api.http) = {
-            post: "/v1/gw/method1"
-            body: "*"
-        };
     }
 
     // 后端服务2
@@ -50,10 +25,6 @@ service TcpGateway {
     // @target backendsvr2 后端目标服务名
     // @id 3 对应请求协议的id
     rpc Method2(Method2Request) returns(Method2Reply) {
-        option (google.api.http) = {
-            post: "/v1/gw/method2"
-            body: "*"
-        };
     }
 }
 

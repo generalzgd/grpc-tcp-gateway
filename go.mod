@@ -4,13 +4,13 @@ go 1.12
 
 require (
 	github.com/astaxie/beego v1.12.0
-	github.com/generalzgd/comm-libs v0.0.0-20190926105101-faf86c3df881
+	github.com/generalzgd/comm-libs v0.0.0-20200109081424-f5b2eb752230
 	github.com/generalzgd/grpc-svr-frame v0.0.0-20190929085824-d6a34f7d1057
-	github.com/generalzgd/grpc-tcp-gateway-proto v0.0.0-20190924080814-5f0f4ff23237
 	github.com/generalzgd/link v0.0.0-20190924020608-c636ec1cdbe5
 	github.com/golang/protobuf v1.3.2
 	github.com/gorilla/websocket v1.4.0
 	github.com/processout/grpc-go-pool v1.2.1
+	google.golang.org/genproto v0.0.0-20190516172635-bb713bdc0e52
 	google.golang.org/grpc v1.23.0
 )
 
