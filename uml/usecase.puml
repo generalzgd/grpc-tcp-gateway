@@ -15,7 +15,7 @@ gw <..> s1: grpc
 gw <..> s2: grpc
 s1 <..> s2: grpc
 
-note "1. 支持客户端tcp/tls/ws/wss协议\n2. 支持双向数据发送\n2. 支持服务端主动下发消息" as n1
+note "1. 支持客户端tcp/tls/ws/wss协议\n2. 支持双向数据发送\n3. 支持服务端主动下发消息\n4. 支持路由转发给不同的后端服务\n5. grpc转发支持服务发现和均衡负载" as n1
 gw .. n1
 
 @enduml

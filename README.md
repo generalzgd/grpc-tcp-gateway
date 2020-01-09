@@ -25,6 +25,8 @@ https://github.com/generalzgd/grpc-tcp-gateway-proto
 5. 对比grpc-ecosystem/grpc-gateway
 5.1 ecosystem需要为每个后端服务都注册一个网关地址和端口，客户端需要关心对应服务的网关和端口。
 5.2 ecosystem只支持http的短连接访问，不支持双向数据发送。
+6. 支持路由转发给不同的后端服务
+7. grpc转发支持后端服务发现和均衡负载
 ```
 
 ## 性能点
