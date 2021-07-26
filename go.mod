@@ -8,7 +8,7 @@ require (
 	github.com/generalzgd/grpc-svr-frame v0.0.0-20190929085824-d6a34f7d1057
 	github.com/generalzgd/link v0.0.0-20190924020608-c636ec1cdbe5
 	github.com/golang/protobuf v1.3.2
-	github.com/gorilla/websocket v1.4.0
+	github.com/gorilla/websocket v1.4.1
 	github.com/processout/grpc-go-pool v1.2.1
 	google.golang.org/genproto v0.0.0-20190516172635-bb713bdc0e52
 	google.golang.org/grpc v1.23.0
